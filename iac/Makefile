@@ -3,9 +3,9 @@
 
 TF_INIT=terraform init
 
-## stage: echo the stage variable TF_VAR_STAGE. Throw error if not set. It's required to know where to deploy.
+## stage: echo the stage variable TF_VAR_stage. Throw error if not set. It's required to know where to deploy.
 stage:
-	@if test -z "$$TF_VAR_STAGE"; then echo "STAGE should be set (development or production)"; exit 1; else echo "TF_VAR_STAGE: \"${TF_VAR_STAGE}\""; fi;
+	@if test -z "$$TF_VAR_stage"; then echo "STAGE should be set (development or production)"; exit 1; else echo "TF_VAR_stage: \"${TF_VAR_stage}\""; fi;
 
 ## init: Initialize terraform.
 init: stage
@@ -14,7 +14,7 @@ init: stage
 
 ## init_with_backend: Override init target because we need -backend-config flag to inject backend's bucket name.
 init_with_backend: stage
-	$(TF_INIT) -backend-config=backend-configs/${TF_VAR_STAGE}.hcl
+	$(TF_INIT) -backend-config=backend-configs/${TF_VAR_stage}.hcl
 
 ## check: Validate the configuration files in a directory.
 check: stage
