@@ -5,7 +5,7 @@ TF_INIT=terraform init
 
 ## stage: echo the stage variable TF_VAR_stage. Throw error if not set. It's required to know where to deploy.
 stage:
-	@if test -z "$$TF_VAR_stage"; then echo "STAGE should be set (development or production)"; exit 1; else echo "TF_VAR_stage: \"${TF_VAR_stage}\""; fi;
+	@if test -z "$$TF_VAR_stage"; then echo "stage should be set (development or production)"; exit 1; else echo "TF_VAR_stage: \"${TF_VAR_stage}\""; fi;
 
 ## init: Initialize terraform.
 init: stage
