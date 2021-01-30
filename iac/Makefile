@@ -48,7 +48,7 @@ destroy:
 ## help: Print out available make targets.
 help: Makefile
 	@echo
-	@echo " Choose a command run:"
+	@echo " Choose a target run:"
 	@echo
 	@sed -n 's/^##//p' $< | column -t -s ':' |  sed -e 's/^/ /'
 	@echo
