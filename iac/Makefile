@@ -50,5 +50,5 @@ help: Makefile
 	@echo
 	@echo " Choose a target run:"
 	@echo
-	@sed -n 's/^##//p' $< | column -t -s ':' |  sed -e 's/^/ /'
+	@fgrep -h "##" $(MAKEFILE_LIST) | fgrep -v fgrep | sed -n 's/^##//p' | column -t -s ':' |  sed -e 's/^/ /'
 	@echo
