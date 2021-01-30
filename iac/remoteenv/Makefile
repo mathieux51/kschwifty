@@ -6,7 +6,7 @@ all: init_with_backend plan apply
 KOPS=kops -f cluster.yaml
 
 generate-cluster-config:
-	@sh generate-cluster-yaml.sh
+	@sh scripts/generate-cluster-config.sh
 
 ## kops-create: Create a cluster with kops
 kops-create: generate-cluster-config

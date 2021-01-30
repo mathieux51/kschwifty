@@ -37,10 +37,10 @@ resource "aws_route53_record" "cluster" {
 }
 
 # wait for validation
-resource "aws_acm_certificate_validation" "cluster" {
-  certificate_arn         = aws_acm_certificate.cluster.arn
-  validation_record_fqdns = [for record in aws_route53_record.cluster : record.fqdn]
-}
+# resource "aws_acm_certificate_validation" "cluster" {
+#   certificate_arn         = aws_acm_certificate.cluster.arn
+#   validation_record_fqdns = [for record in aws_route53_record.cluster : record.fqdn]
+# }
 
 resource "aws_s3_bucket" "kops_state_store" {
   bucket = "kschwifty-kops-state-${var.stage}"
