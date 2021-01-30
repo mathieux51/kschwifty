@@ -28,7 +28,6 @@ resource "aws_route53_record" "cluster" {
       type   = dvo.resource_record_type
     }
   }
-  force_destroy = true
   allow_overwrite = true
   name    = each.value.name
   records = [each.value.record]
