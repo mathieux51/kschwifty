@@ -7,7 +7,7 @@ locals {
   cluster_name  = "${var.stage}.${var.domain_name}"
 
   tags = {
-    environment = "${local.environment}"
+    environment = local.environment
     terraform   = true
   }
 }
