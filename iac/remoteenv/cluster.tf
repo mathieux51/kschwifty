@@ -62,7 +62,7 @@ module "vpc" {
   name = local.cluster_name
   cidr = local.cidr
 
-  azs             = data.availability_zones.available
+  azs             = data.aws_availability_zones.available
   private_subnets = local.private_subnets
   public_subnets  = local.public_subnets
 
@@ -87,20 +87,20 @@ module "vpc" {
 
 resource "aws_security_group" "k8s_api_http" {
   name   = "${local.environment}_k8s_api_http"
-  vpc_id = "${module.vpc.vpc_id}"
+  vpc_id = module.vpc.vpc_id
   tags   = "${local.tags}"
 
   ingress {
     protocol    = "tcp"
     from_port   = 80
     to_port     = 80
-    cidr_blocks = ["${local.ingress_ips}"]
+    cidr_blocks = local.ingress_ips
   }
 
   ingress {
     protocol    = "tcp"
     from_port   = 443
     to_port     = 443
-    cidr_blocks = ["${local.ingress_ips}"]
+    cidr_blocks = local.ingress_ips
   }
 }
