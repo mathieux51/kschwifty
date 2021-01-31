@@ -79,7 +79,7 @@ module "vpc" {
   }
 
   tags = {
-    Environment = "${local.environment}"
+    Environment = local.environment
     Application = "network"
     "kubernetes.io/cluster/${local.cluster_name}" = "shared"
   }
