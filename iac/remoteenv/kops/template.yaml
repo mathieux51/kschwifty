@@ -29,7 +29,7 @@ spec:
   iam:
     allowContainerRegistry: true
     legacy: false
-  kubernetesVersion: 1.18.9
+  kubernetesVersion: 1.18.15
   masterPublicName: api.{{.cluster_name.value}}
   networkCIDR: {{.vpc_cidr_block.value}}
   kubeControllerManager:

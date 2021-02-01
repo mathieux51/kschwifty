@@ -39,7 +39,7 @@ spec:
     clusterCIDR: 10.0.0.0/16
   kubelet:
     anonymousAuth: false
-  kubernetesVersion: 1.18.9
+  kubernetesVersion: 1.18.15
   masterPublicName: api.development.kschwifty.com
   networkCIDR: 10.0.0.0/16
   networkID: vpc-0ae1b6f517b069b6a
