@@ -14,6 +14,9 @@ kops-create:
 		--target=terraform \
 		--out=.
 
+kops-template:
+	./scripts/kops-template
+
 ## kops-delete: Delete the cluster
 kops-delete:
 	kops delete cluster \
