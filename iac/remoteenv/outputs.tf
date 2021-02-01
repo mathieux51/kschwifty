@@ -3,8 +3,9 @@ output "cluster_name" {
 }
 
 output "availability_zones" {
-  value = join(",", data.aws_availability_zones.available.names)
+  value = data.aws_availability_zones.available.names
 }
+
 output "kops_state_store" {
   value = "s3://${aws_s3_bucket.kops_state_store.id}"
 }
