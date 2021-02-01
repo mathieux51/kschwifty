@@ -11,7 +11,7 @@ spec:
     rbac: {}
   channel: stable
   cloudProvider: aws
-  configBase: s3://{{.kops_state_store.value}}/{{.cluster_name.value}}
+  configBase: {{.kops_state_store.value}}
   # Create one etcd member per AZ
   etcdClusters:
   - etcdMembers:
