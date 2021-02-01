@@ -1,0 +1,174 @@
+apiVersion: kops.k8s.io/v1alpha2
+kind: Cluster
+metadata:
+  name: development.kschwifty.com
+spec:
+  api:
+    loadBalancer:
+      additionalSecurityGroups:
+      - sg-065925988bbd00e63
+      type: Public
+  authorization:
+    rbac: {}
+  channel: stable
+  cloudProvider: aws
+  configBase: s3://kschwifty-kops-state-development
+  etcdClusters:
+  - etcdMembers:
+    - instanceGroup: master-eu-central-1a
+      name: a
+    - instanceGroup: master-eu-central-1b
+      name: b
+    - instanceGroup: master-eu-central-1c
+      name: c
+    name: main
+  - etcdMembers:
+    - instanceGroup: master-eu-central-1a
+      name: a
+    - instanceGroup: master-eu-central-1b
+      name: b
+    - instanceGroup: master-eu-central-1c
+      name: c
+    name: events
+  iam:
+    allowContainerRegistry: true
+    legacy: false
+  kubeControllerManager:
+    clusterCIDR: 10.0.0.0/16
+  kubeProxy:
+    clusterCIDR: 10.0.0.0/16
+  kubelet:
+    anonymousAuth: false
+  kubernetesVersion: 1.18.9
+  masterPublicName: api.development.kschwifty.com
+  networkCIDR: 10.0.0.0/16
+  networkID: vpc-0ae1b6f517b069b6a
+  networking:
+    amazonvpc: {}
+  nonMasqueradeCIDR: 10.0.0.0/16
+  sshAccess:
+  - 0.0.0.0/0
+  subnets:
+  - id: subnet-03319a7afedcd0b50
+    name: utility-eu-central-1a
+    type: Utility
+    zone: eu-central-1a
+  - id: subnet-054653cdb0a296775
+    name: utility-eu-central-1b
+    type: Utility
+    zone: eu-central-1b
+  - id: subnet-0e4bd6cba285e0280
+    name: utility-eu-central-1c
+    type: Utility
+    zone: eu-central-1c
+  - egress: nat-0e34cdc49aa26bd90
+    id: subnet-021e234283de56ede
+    name: eu-central-1a
+    type: Private
+    zone: eu-central-1a
+  - egress: nat-0e34cdc49aa26bd90
+    id: subnet-0a87fbca4fde6ef76
+    name: eu-central-1b
+    type: Private
+    zone: eu-central-1b
+  - egress: nat-0e34cdc49aa26bd90
+    id: subnet-0c2136ed4d295a494
+    name: eu-central-1c
+    type: Private
+    zone: eu-central-1c
+  topology:
+    bastion:
+      bastionPublicName: bastion.development.kschwifty.com
+    dns:
+      type: Public
+    masters: private
+    nodes: private
+---
+apiVersion: kops.k8s.io/v1alpha2
+kind: InstanceGroup
+metadata:
+  labels:
+    kops.k8s.io/cluster: development.kschwifty.com
+  name: master-eu-central-1a
+spec:
+  image: kope.io/k8s-1.11-debian-stretch-amd64-hvm-ebs-2018-08-17
+  machineType: t2.nano
+  maxSize: 1
+  minSize: 1
+  nodeLabels:
+    kops.k8s.io/instancegroup: master-eu-central-1a
+  role: Master
+  subnets:
+  - eu-central-1a
+---
+apiVersion: kops.k8s.io/v1alpha2
+kind: InstanceGroup
+metadata:
+  labels:
+    kops.k8s.io/cluster: development.kschwifty.com
+  name: master-eu-central-1b
+spec:
+  image: kope.io/k8s-1.11-debian-stretch-amd64-hvm-ebs-2018-08-17
+  machineType: t2.nano
+  maxSize: 1
+  minSize: 1
+  nodeLabels:
+    kops.k8s.io/instancegroup: master-eu-central-1b
+  role: Master
+  subnets:
+  - eu-central-1b
+---
+apiVersion: kops.k8s.io/v1alpha2
+kind: InstanceGroup
+metadata:
+  labels:
+    kops.k8s.io/cluster: development.kschwifty.com
+  name: master-eu-central-1c
+spec:
+  image: kope.io/k8s-1.11-debian-stretch-amd64-hvm-ebs-2018-08-17
+  machineType: t2.nano
+  maxSize: 1
+  minSize: 1
+  nodeLabels:
+    kops.k8s.io/instancegroup: master-eu-central-1c
+  role: Master
+  subnets:
+  - eu-central-1c
+---
+apiVersion: kops.k8s.io/v1alpha2
+kind: InstanceGroup
+metadata:
+  labels:
+    kops.k8s.io/cluster: development.kschwifty.com
+  name: nodes
+spec:
+  image: kope.io/k8s-1.11-debian-stretch-amd64-hvm-ebs-2018-08-17
+  machineType: t2.nano
+  maxSize: 2
+  minSize: 2
+  nodeLabels:
+    kops.k8s.io/instancegroup: nodes
+  role: Node
+  subnets:
+  - eu-central-1a
+  - eu-central-1b
+  - eu-central-1c
+---
+apiVersion: kops.k8s.io/v1alpha2
+kind: InstanceGroup
+metadata:
+  labels:
+    kops.k8s.io/cluster: development.kschwifty.com
+  name: bastions
+spec:
+  image: kope.io/k8s-1.11-debian-stretch-amd64-hvm-ebs-2018-08-17
+  machineType: t2.micro
+  maxSize: 1
+  minSize: 1
+  nodeLabels:
+    kops.k8s.io/instancegroup: bastions
+  role: Bastion
+  subnets:
+  - utility-eu-central-1a
+  - utility-eu-central-1b
+  - utility-eu-central-1c
