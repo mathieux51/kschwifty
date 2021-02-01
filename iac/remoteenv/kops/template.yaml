@@ -29,7 +29,7 @@ spec:
   iam:
     allowContainerRegistry: true
     legacy: false
-  kubernetesVersion: 1.11.6
+  kubernetesVersion: 1.18.9
   masterPublicName: api.{{.cluster_name.value}}
   networkCIDR: {{.vpc_cidr_block.value}}
   kubeControllerManager:
@@ -79,7 +79,7 @@ metadata:
   name: master-{{.}}
 spec:
   image: kope.io/k8s-1.11-debian-stretch-amd64-hvm-ebs-2018-08-17
-  machineType: t2.medium
+  machineType: t2.nano
   maxSize: 1
   minSize: 1
   role: Master
@@ -88,7 +88,7 @@ spec:
   subnets:
   - {{.}}
 ---
-  {{end}}
+{{end}}
 
 apiVersion: kops.k8s.io/v1alpha2
 kind: InstanceGroup
@@ -98,7 +98,7 @@ metadata:
   name: nodes
 spec:
   image: kope.io/k8s-1.11-debian-stretch-amd64-hvm-ebs-2018-08-17
-  machineType: t2.small
+  machineType: t2.nano
   maxSize: 2
   minSize: 2
   role: Node
