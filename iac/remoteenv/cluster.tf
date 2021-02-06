@@ -6,6 +6,20 @@ resource "aws_route53_zone" "cluster" {
   name = var.domain_name
 }
 
+# resource "aws_route53_zone_association" "cluster" {
+#   zone_id = aws_route53_zone.cluster.zone_id
+#   vpc_id  = module.vpc.vpc_id
+# }
+
+resource "aws_route53_record" "nameservers" {
+  allow_overwrite = true
+  name            = var.domain_name
+  type            = "NS"
+  ttl             = 3600
+  zone_id         = aws_route53_zone.cluster.zone_id
+  records         = aws_route53_zone.cluster.name_servers
+}
+
 resource "aws_acm_certificate" "cluster" {
   domain_name               = var.domain_name
   subject_alternative_names = ["*.${var.domain_name}"]
@@ -29,11 +43,11 @@ resource "aws_route53_record" "cluster" {
     }
   }
   allow_overwrite = true
-  name    = each.value.name
-  records = [each.value.record]
-  ttl     = 60
-  type    = each.value.type
-  zone_id = aws_route53_zone.cluster.zone_id
+  name            = each.value.name
+  records         = [each.value.record]
+  ttl             = 60
+  type            = each.value.type
+  zone_id         = aws_route53_zone.cluster.zone_id
 }
 
 # wait for validation
@@ -43,7 +57,7 @@ resource "aws_route53_record" "cluster" {
 # }
 
 resource "aws_s3_bucket" "kops_state_store" {
-  bucket = "kschwifty-kops-state-${var.stage}"
+  bucket        = "kschwifty-kops-state-${var.stage}"
   acl           = "private"
   force_destroy = true
 
@@ -66,8 +80,8 @@ module "vpc" {
   private_subnets = local.private_subnets
   public_subnets  = local.public_subnets
 
-  enable_nat_gateway = true
-  single_nat_gateway = true
+  enable_nat_gateway     = true
+  single_nat_gateway     = true
   one_nat_gateway_per_az = false
 
   private_subnet_tags = {
@@ -79,8 +93,8 @@ module "vpc" {
   }
 
   tags = {
-    Environment = local.environment
-    Application = "network"
+    Environment                                   = local.environment
+    Application                                   = "network"
     "kubernetes.io/cluster/${local.cluster_name}" = "shared"
   }
 }

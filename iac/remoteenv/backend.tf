@@ -9,7 +9,7 @@ resource "aws_dynamodb_table" "remoteenv_locks" {
 }
 
 resource "aws_s3_bucket" "customer_and_catalog_lambda_state" {
-  bucket = "kschwifty-remoteenv-state-${var.stage}"
+  bucket        = "kschwifty-remoteenv-state-${var.stage}"
   force_destroy = true
   # versioning {
   #   enabled = true
