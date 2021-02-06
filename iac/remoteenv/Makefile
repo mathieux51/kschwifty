@@ -5,7 +5,7 @@ all: init_with_backend plan apply
 
 ## kops-template: Render template kops/template.yaml.
 kops-template:
-	@./scripts/kops-template
+	@./scripts/kops-template.sh
 
 ## kops-replace: Update kops with rendered version of the template.
 kops-replace:
