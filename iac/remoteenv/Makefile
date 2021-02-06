@@ -24,7 +24,7 @@ kops-update:
 		--target=terraform
 
 ## update-cluster: Update the cluster by running targets plan_and_apply kops-template kops-replace kops-update
-update-cluster: plan_and_apply kops-template kops-replace kops-update
+update-cluster: kops-template kops-replace kops-update
 
 ## kops-delete: Delete the cluster
 kops-delete:
@@ -33,10 +33,11 @@ kops-delete:
 		--state=$(shell terraform output kops_state_store) \
 		--yes
 
-## kops-add-sshpublickey: Add ssh pulic key id_ed25519.pub to kops.
+
+## kops-add-sshpublickey: Add ssh pulic key id_rsa.pub to kops.
 kops-add-sshpublickey:
 	kops create secret \
 		--name=$(shell terraform output cluster_name) \
 		--state=$(shell terraform output kops_state_store) \
 		sshpublickey admin \
-		-i ~/.ssh/id_ed25519.pub
+		-i ~/.ssh/id_rsa.pub
